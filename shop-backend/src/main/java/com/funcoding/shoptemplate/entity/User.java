@@ -91,4 +91,19 @@ public class User {
             role.getUsers().remove(this);
         }
     }
+
+    @Override
+    public String toString() {
+        String setRole = "";
+        for(Role s: roles) {
+            setRole += " " + s.getRoleName();
+        }
+        return "User{" +
+                "userName='" + userName + '\'' +
+                ", userFirstName='" + userFirstName + '\'' +
+                ", userLastName='" + userLastName + '\'' +
+                ", userPassword='" + userPassword + '\'' +
+                ", roles=" + setRole +
+                '}';
+    }
 }

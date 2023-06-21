@@ -25,4 +25,12 @@ public class JwtResponse {
     public void setJwtToken(String jwtToken) {
         this.jwtToken = jwtToken;
     }
+
+    @Override
+    public String toString() {
+        return "JwtResponse{" +
+                "user=" + user +
+                ", jwtToken='" + jwtToken + '\'' +
+                '}';
+    }
 }

@@ -32,11 +32,14 @@ public class JwtService implements UserDetailsService {
     private AuthenticationManager authenticationManager;
 
     public JwtResponse createJwtToken(JwtRequest jwtRequest) throws Exception {
+
         String userName = jwtRequest.getUserName();
         String userPassword = jwtRequest.getUserPassword();
+
         authenticate(userName, userPassword);
 
         UserDetails userDetails = loadUserByUsername(userName);
+
         String newGeneratedToken = jwtUtil.generateToken(userDetails);
 
         User user = userDao.findById(userName).get();
@@ -48,18 +51,27 @@ public class JwtService implements UserDetailsService {
         User user = userDao.findById(username).get();
 
         if (user != null) {
-            return new org.springframework.security.core.userdetails.User(
+
+            Set<SimpleGrantedAuthority> authorities = getAuthority(user);
+
+            UserDetails userDetails = new org.springframework.security.core.userdetails.User(
                     user.getUserName(),
                     user.getUserPassword(),
-                    getAuthority(user)
+                    authorities
             );
+
+            return userDetails;
         } else {
+
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
+
+
     }
 
     private Set getAuthority(User user) {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+
         user.getRoles().forEach(role -> {
             authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleName()));
         });
@@ -68,11 +80,20 @@ public class JwtService implements UserDetailsService {
 
     private void authenticate(String userName, String userPassword) throws Exception {
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userName, userPassword));
+
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userName, userPassword);
+
+            authenticationManager.authenticate(token);
+
         } catch (DisabledException e) {
+
             throw new Exception("USER_DISABLED", e);
         } catch (BadCredentialsException e) {
+
             throw new Exception("INVALID_CREDENTIALS", e);
+        } catch (Exception e) {
+
+            throw new Exception("Exception", e);
         }
     }
 }

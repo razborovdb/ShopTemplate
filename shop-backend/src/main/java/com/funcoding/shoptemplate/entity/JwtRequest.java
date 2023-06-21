@@ -20,4 +20,12 @@ public class JwtRequest {
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
     }
+
+    @Override
+    public String toString() {
+        return "JwtRequest{" +
+                "userName='" + userName + '\'' +
+                ", userPassword='" + userPassword + '\'' +
+                '}';
+    }
 }
