@@ -1,6 +1,8 @@
 package com.funcoding.shoptemplate.entity;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Product {
@@ -17,16 +19,27 @@ public class Product {
     @Column(name = "product_actual_price")
     private Double productActualPrice;
 
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name = "product_image",
+            joinColumns = { @JoinColumn(name = "product_id") },
+            inverseJoinColumns = { @JoinColumn(name = "image_id") })
+    private Set<ImageModel> productImages = new HashSet<>();
+
     public Product() {
 
     }
 
-    public Product(Long productId, String productName, String productDescription, Double productDiscountedPrice, Double productActualPrice) {
+    public Product(Long productId, String productName, String productDescription, Double productDiscountedPrice, Double productActualPrice, Set<ImageModel> productImages) {
         this.productId = productId;
         this.productName = productName;
         this.productDescription = productDescription;
         this.productDiscountedPrice = productDiscountedPrice;
         this.productActualPrice = productActualPrice;
+        this.productImages = productImages;
     }
 
     public Long getProductId() {
@@ -67,6 +80,14 @@ public class Product {
 
     public void setProductActualPrice(Double productActualPrice) {
         this.productActualPrice = productActualPrice;
+    }
+
+    public Set<ImageModel> getProductImages() {
+        return productImages;
+    }
+
+    public void setProductImages(Set<ImageModel> productImages) {
+        this.productImages = productImages;
     }
 
     @Override
