@@ -12,7 +12,7 @@ export class ProductService {
 
   constructor(private httpclient: HttpClient) { }
 
-  public addProduct(product: Product) {
+  public addProduct(product: FormData) {
     console.log("------------------------------------------")
     console.log(product);
     return this.httpclient.post<Product>(this.PATH_OF_API + '/product/add', product, {

@@ -20,8 +20,8 @@ import java.util.Set;
 public class ProductController {
     @Autowired
     private ProductService productService;
+    @PreAuthorize("hasRole('Admin')")
     @PostMapping(value = {"/product/add"}, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-
     public Product addNewProduct(@RequestPart("product") Product product,
                                  @RequestPart("imageFile") MultipartFile[] file) {
         try {
