@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Product } from '../_model/product.model';
+import { UserAuthService } from '../_services/user-auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,15 +9,14 @@ import { Product } from '../_model/product.model';
 export class ProductService {
   PATH_OF_API = 'http://localhost:9090';
 
-  requestHeader = new HttpHeaders({ 'No-Auth': 'True' });
+  requestHeader = new HttpHeaders({ 'Authorization': 'Bearer ' });
 
-  constructor(private httpclient: HttpClient) { }
+  constructor(private userAuthService: UserAuthService, private httpclient: HttpClient) { }
 
   public addProduct(product: FormData) {
-    console.log("------------------------------------------")
-    console.log(product);
+
     return this.httpclient.post<Product>(this.PATH_OF_API + '/product/add', product, {
-      headers: this.requestHeader,
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.userAuthService.getToken }),
     });
   }
 }

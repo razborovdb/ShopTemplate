@@ -19,7 +19,7 @@ public class Product {
     @Column(name = "product_actual_price")
     private Double productActualPrice;
 
-    @ManyToMany(fetch = FetchType.LAZY,
+    @ManyToMany(fetch = FetchType.EAGER,
             cascade = {
                     CascadeType.PERSIST,
                     CascadeType.MERGE

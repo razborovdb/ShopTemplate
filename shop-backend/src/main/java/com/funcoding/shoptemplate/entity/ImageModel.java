@@ -21,7 +21,7 @@ public class ImageModel {
     @Column(length = 50000000, name = "pic_byte")
     private byte[] picByte;
 
-    @ManyToMany(fetch = FetchType.LAZY,
+    @ManyToMany(fetch = FetchType.EAGER,
             cascade = {
                     CascadeType.PERSIST,
                     CascadeType.MERGE

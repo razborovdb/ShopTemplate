@@ -23,10 +23,14 @@ public class ProductController {
     @PreAuthorize("hasRole('Admin')")
     @PostMapping(value = {"/product/add"}, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public Product addNewProduct(@RequestPart("product") Product product,
-                                 @RequestPart("imageFile") MultipartFile[] file) {
+                                 @RequestPart(name="imageFile", required = false) MultipartFile[] file) {
         try {
-            Set<ImageModel> imageModels = uploadImage(file);
-            product.setProductImages(imageModels);
+            if(file != null) {
+                Set<ImageModel> imageModels = uploadImage(file);
+                product.setProductImages(imageModels);
+            } else {
+                product.setProductImages(new HashSet<>());
+            }
             return productService.addNewProduct(product);
         } catch (Exception e) {
             return null;

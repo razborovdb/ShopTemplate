@@ -24,6 +24,7 @@ export class UserService {
   public forUser() {
     return this.httpclient.get(this.PATH_OF_API + '/forUser', {
       responseType: 'text',
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.userAuthService.getToken })
     });
   }
 
@@ -31,6 +32,7 @@ export class UserService {
   public forAdmin() {
     return this.httpclient.get(this.PATH_OF_API + '/forAdmin', {
       responseType: 'text',
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.userAuthService.getToken })
     });
   }
 
