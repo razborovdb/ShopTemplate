@@ -22,13 +22,14 @@ export class ProductService {
 
   public getAllProducts() {
     
-    if (this.userAuthService.getToken) {
+    if (this.userAuthService.getToken()) {
       return this.httpclient.get<Product[]>(this.PATH_OF_API + '/products', {
-        headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.userAuthService.getToken }),
+        headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.userAuthService.getToken() }),
       });
     } else {
       return this.httpclient.get<Product[]>(this.PATH_OF_API + '/products', {
-        headers: new HttpHeaders({ 'Authorization': 'Bearer ' + '  ' }),
+        headers: new HttpHeaders({ 'No-Auth': 'True' }),
+        
       });
     }
     

@@ -27,6 +27,7 @@ export class HomeComponent implements OnInit {
     this.productService.getAllProducts().subscribe(
       (response: Product[]) => {
         this.allProduct = response.map((product: Product) => this.imageProcessingService.createImages(product));
+        
       },
       (error) => {
         console.log(error);
