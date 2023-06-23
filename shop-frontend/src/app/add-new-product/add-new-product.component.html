@@ -33,7 +33,8 @@
                     </mat-form-field>
                     <div align="end">
                         <button (click)="clearForm(productForm)" mat-stroked-button color="Primary" style="margin-right: 3px">Clear</button>
-                        <button type="submit" mat-stroked-button color="Primary">Add Product</button>
+                        <button *ngIf="isNewProduct" type="submit" mat-stroked-button color="Primary">Add Product</button>
+                        <button *ngIf="!isNewProduct" type="submit" mat-stroked-button color="Primary">Update Product</button>
                     </div>
                 </form>
             </div>

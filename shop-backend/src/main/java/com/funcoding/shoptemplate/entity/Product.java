@@ -12,7 +12,7 @@ public class Product {
     private Long productId;
     @Column(name = "product_name")
     private String productName;
-    @Column(name = "product_description")
+    @Column(name = "product_description", length = 2000)
     private String productDescription;
     @Column(name = "product_discounted_price")
     private Double productDiscountedPrice;
@@ -21,8 +21,7 @@ public class Product {
 
     @ManyToMany(fetch = FetchType.EAGER,
             cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
+                    CascadeType.ALL
             })
     @JoinTable(name = "product_image",
             joinColumns = { @JoinColumn(name = "product_id") },

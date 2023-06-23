@@ -19,4 +19,32 @@ export class ProductService {
       headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.userAuthService.getToken }),
     });
   }
+
+  public getAllProducts() {
+    
+    if (this.userAuthService.getToken) {
+      return this.httpclient.get<Product[]>(this.PATH_OF_API + '/products', {
+        headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.userAuthService.getToken }),
+      });
+    } else {
+      return this.httpclient.get<Product[]>(this.PATH_OF_API + '/products', {
+        headers: new HttpHeaders({ 'Authorization': 'Bearer ' + '  ' }),
+      });
+    }
+    
+  }
+
+  public deleteProduct(productId: number) {
+
+    return this.httpclient.delete(this.PATH_OF_API + '/product/' + productId, {
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.userAuthService.getToken }),
+    });
+  }
+
+  public getProduct(productId) {
+
+    return this.httpclient.get<Product>(this.PATH_OF_API + '/product/' + productId, {
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.userAuthService.getToken }),
+    });
+  }
 }

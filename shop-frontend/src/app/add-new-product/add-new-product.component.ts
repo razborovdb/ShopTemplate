@@ -4,6 +4,7 @@ import {NgForm} from '@angular/forms'
 import { ProductService } from '../_services/product.service';
 import { FileHandle } from '../_model/file-handle.model';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-add-new-product',
@@ -11,18 +12,29 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./add-new-product.component.css']
 })
 export class AddNewProductComponent {
+  isNewProduct = true;
   product: Product = {
+    productId: null,
     productName: "",
     productDescription: "",
     productDiscountedPrice: 0.0,
     productActualPrice: 0.0,
     productImages: []
   }
+  
 
   constructor(private productService: ProductService,
-    private sanitizer: DomSanitizer) {}
+    private sanitizer: DomSanitizer,
+    private activatedRoute: ActivatedRoute) {}
 
-  ngOnInit(): void { }
+  ngOnInit(): void { 
+    this.product = this.activatedRoute.snapshot.data['product'];
+    if (this.product && this.product.productId) {
+      this.isNewProduct = false;
+    } else {
+      this.isNewProduct = true;
+    }
+  }
 
   onFileSelected(event) {
     if(event.target.files) {
@@ -42,8 +54,10 @@ export class AddNewProductComponent {
     const productFormData = this.prepareFormData(this.product);
     this.productService.addProduct(productFormData).subscribe(
       (response: Product) => {
-        productForm.reset();
-        this.product.productImages = [];
+        if (this.isNewProduct) {
+          productForm.reset();
+          this.product.productImages = [];
+        }
       },
       (error) => {
         console.log(error);
@@ -52,8 +66,10 @@ export class AddNewProductComponent {
   }
 
   clearForm(productForm: NgForm) {
-    productForm.reset();
-    this.product.productImages = [];
+    if (this.isNewProduct) {
+      productForm.reset();
+      this.product.productImages = [];
+    }
   }
 
   prepareFormData(product: Product): FormData {
