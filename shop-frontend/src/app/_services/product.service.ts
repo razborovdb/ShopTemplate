@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Product } from '../_model/product.model';
 import { UserAuthService } from '../_services/user-auth.service';
+import { OrderDetails } from '../_model/order-details.model';
 
 @Injectable({
   providedIn: 'root'
@@ -67,4 +68,19 @@ export class ProductService {
       });
     }
   }
+
+  public placeOrder(orderDetails: OrderDetails) {
+    if (this.userAuthService.getToken()) {
+
+      return this.httpclient.post(this.PATH_OF_API + '/order', orderDetails, {
+        headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.userAuthService.getToken() }),
+      });
+    } else {
+      return this.httpclient.post(this.PATH_OF_API + '/order', orderDetails, {
+        headers: new HttpHeaders({ 'No-Auth': 'True' }),
+      });
+    }
+  }
+
+
 }

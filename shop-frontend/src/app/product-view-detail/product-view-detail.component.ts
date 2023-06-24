@@ -23,7 +23,10 @@ export class ProductViewDetailComponent {
   }
 
   buyProduct(productId) {
-    this.router.navigate(['/buyProduct']);
+    this.router.navigate(['/buyProduct', {
+      isSingleProductCheckout: true,
+      id: productId
+    }]);
   }
 
 }
