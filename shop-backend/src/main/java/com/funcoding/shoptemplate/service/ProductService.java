@@ -12,10 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class ProductService {
@@ -40,6 +37,19 @@ public class ProductService {
     public Product getProductById(Long productId) {
         Optional<Product> product = productDao.findById(productId);
         return product.orElse(null);
+    }
+
+    public List<Product> getProductDetails(Long productId, boolean isSingleProductCheckout) {
+        if(isSingleProductCheckout) {
+            List<Product> list = new ArrayList<>();
+            Product product = productDao.findById(productId).get();
+            list.add(product);
+            return list;
+        } else {
+
+        }
+
+        return new ArrayList<>();
     }
 
 }

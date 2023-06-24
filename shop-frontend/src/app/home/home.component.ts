@@ -3,6 +3,7 @@ import { Product } from '../_model/product.model';
 import { ProductService } from '../_services/product.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ImageProcessingService } from '../_services/image-processing.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +15,8 @@ export class HomeComponent implements OnInit {
 
   constructor(private productService: ProductService,
     public dialog: MatDialog,
-    private imageProcessingService: ImageProcessingService
+    private imageProcessingService: ImageProcessingService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -34,9 +36,13 @@ export class HomeComponent implements OnInit {
       }
     );
 
+    
+
 
   }
 
-
+  showProductDetails(productId) {
+    this.router.navigate(['/productViewDetail', {productId: productId}]);
+  }
 
 }

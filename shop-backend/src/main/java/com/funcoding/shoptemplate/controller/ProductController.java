@@ -58,7 +58,7 @@ public class ProductController {
         return productService.getAllProduct();
     }
 
-    @PreAuthorize("hasRole('Admin')")
+
     @GetMapping(value = {"/product/{productId}"})
     public Product getProductById(@PathVariable("productId") Long productId) {
         return productService.getProductById(productId);
@@ -68,6 +68,13 @@ public class ProductController {
     @DeleteMapping("/product/{productId}")
     public void deleteProduct(@PathVariable("productId") Long productId) {
         productService.deleteProduct(productId);
+    }
+
+    @PreAuthorize("hasRole('User')")
+    @GetMapping(value = {"/product/details/{isSingleProductCheckout}/{productId}"})
+    public List<Product> getProductDetails(@PathVariable("productId") Long productId, @PathVariable("isSingleProductCheckout") boolean isSingleProductCheckout) {
+
+        return productService.getProductDetails(productId, isSingleProductCheckout);
     }
 
 }

@@ -9,23 +9,34 @@ import { AuthGuard } from './_auth/auth.guard';
 import { AddNewProductComponent } from './add-new-product/add-new-product.component';
 import { ShowAllProductsComponent } from './show-all-products/show-all-products.component';
 import { ProductResolveService } from './_services/product-resolve.service';
+import { ProductViewDetailComponent } from './product-view-detail/product-view-detail.component';
+import { BuyProductComponent } from './buy-product/buy-product.component';
+import { BuyProductResolverService } from './_services/buy-product-resolver.service';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'admin', component: AdminComponent, canActivate:[AuthGuard], data:{roles:['Admin']} },
-  { path: 'user', component: UserComponent ,  canActivate:[AuthGuard], data:{roles:['User']} },
+  { path: 'admin', component: AdminComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
+  { path: 'user', component: UserComponent, canActivate: [AuthGuard], data: { roles: ['User'] } },
   { path: 'login', component: LoginComponent },
   { path: 'forbidden', component: ForbiddenComponent },
-  { path: 'addUpdateProduct', component: AddNewProductComponent, canActivate:[AuthGuard], data:{roles:['Admin']},
+  {
+    path: 'addUpdateProduct', component: AddNewProductComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] },
     resolve: {
       product: ProductResolveService
     }
   },
-  { path: 'showAllProducts', component: ShowAllProductsComponent, canActivate:[AuthGuard], data:{roles:['Admin'] } }
+  { path: 'showAllProducts', component: ShowAllProductsComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
+  { path: 'productViewDetail', component: ProductViewDetailComponent, resolve: { product: ProductResolveService } },
+  {
+    path: 'buyProduct', component: BuyProductComponent, canActivate: [AuthGuard], data: { roles: ['User'] },
+    resolve: {
+      productDetails: BuyProductResolverService
+    }
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

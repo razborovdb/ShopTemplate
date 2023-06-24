@@ -31,12 +31,20 @@ export class UserAuthService {
   }
 
   public isAdmin() {
-    const roles: any[] = this.getRoles();
-    return roles[0].roleName === 'Admin';
+    if (this.getRoles() && this.getToken()) {
+      const roles: any[] = this.getRoles();
+      return roles[0].roleName === 'Admin';
+    } else {
+      return false;
+    }
   }
 
   public isUser() {
-    const roles: any[] = this.getRoles();
-    return roles[0].roleName === 'User';
+    if (this.getRoles() && this.getToken()) {
+      const roles: any[] = this.getRoles();
+      return roles[0].roleName === 'User';
+    } else {
+      return false;
+    }
   }
 }

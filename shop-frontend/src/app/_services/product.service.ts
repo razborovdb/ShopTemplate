@@ -16,7 +16,7 @@ export class ProductService {
   public addProduct(product: FormData) {
 
     return this.httpclient.post<Product>(this.PATH_OF_API + '/product/add', product, {
-      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.userAuthService.getToken }),
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.userAuthService.getToken() }),
     });
   }
 
@@ -38,14 +38,33 @@ export class ProductService {
   public deleteProduct(productId: number) {
 
     return this.httpclient.delete(this.PATH_OF_API + '/product/' + productId, {
-      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.userAuthService.getToken }),
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.userAuthService.getToken() }),
     });
   }
 
   public getProduct(productId) {
+    if (this.userAuthService.getToken()) {
 
-    return this.httpclient.get<Product>(this.PATH_OF_API + '/product/' + productId, {
-      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.userAuthService.getToken }),
-    });
+      return this.httpclient.get<Product>(this.PATH_OF_API + '/product/' + productId, {
+        headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.userAuthService.getToken() }),
+      });
+    } else {
+      return this.httpclient.get<Product>(this.PATH_OF_API + '/product/' + productId, {
+        headers: new HttpHeaders({ 'No-Auth': 'True' }),
+      });
+    }
+  }
+
+  public getProductDetails(isSingleProductCheckout,productId) {
+    if (this.userAuthService.getToken()) {
+
+      return this.httpclient.get<Product[]>(this.PATH_OF_API + '/product/details/' + isSingleProductCheckout + '/' + productId, {
+        headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.userAuthService.getToken() }),
+      });
+    } else {
+      return this.httpclient.get<Product[]>(this.PATH_OF_API + '/product/details/' + isSingleProductCheckout + '/' + productId, {
+        headers: new HttpHeaders({ 'No-Auth': 'True' }),
+      });
+    }
   }
 }

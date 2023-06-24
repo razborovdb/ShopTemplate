@@ -29,6 +29,8 @@ import { AddNewProductComponent } from './add-new-product/add-new-product.compon
 import { DragDirective } from './drag.directive';
 import { ShowAllProductsComponent } from './show-all-products/show-all-products.component';
 import { ShowProductImagesDialogComponent } from './show-product-images-dialog/show-product-images-dialog.component';
+import { ProductViewDetailComponent } from './product-view-detail/product-view-detail.component';
+import { BuyProductComponent } from './buy-product/buy-product.component';
 
 
 @NgModule({
@@ -44,6 +46,8 @@ import { ShowProductImagesDialogComponent } from './show-product-images-dialog/s
     DragDirective,
     ShowAllProductsComponent,
     ShowProductImagesDialogComponent,
+    ProductViewDetailComponent,
+    BuyProductComponent,
     
   ],
   imports: [
