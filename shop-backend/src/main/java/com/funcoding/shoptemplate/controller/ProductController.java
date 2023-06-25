@@ -57,9 +57,10 @@ public class ProductController {
 
     @GetMapping(value = {"/products"})
     public List<Product> getAllProducts(@RequestParam(name="pageNumber", defaultValue="0") int pageNumber,
-                                        @RequestParam(name="size", defaultValue="3") int size) {
+                                        @RequestParam(name="size", defaultValue="3") int size,
+                                        @RequestParam(name="searchKey", defaultValue="") String searchKey) {
 
-        return productService.getAllProduct(pageNumber, size);
+        return productService.getAllProduct(pageNumber, size, searchKey);
     }
 
 

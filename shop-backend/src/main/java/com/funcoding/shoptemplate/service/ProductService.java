@@ -24,10 +24,15 @@ public class ProductService {
         return newProduct;
     }
 
-    public List<Product> getAllProduct(int pageNumber, int size) {
+    public List<Product> getAllProduct(int pageNumber, int size, String searchKey) {
         Pageable pageable = PageRequest.of(pageNumber,size);
-        List<Product> products = (List<Product>) productDao.findAll(pageable);
-        return products;
+        if (searchKey.isEmpty()) {
+            return (List<Product>) productDao.findAll(pageable);
+        } else {
+            return (List<Product>) productDao.findByProductNameContainingIgnoreCaseOrProductDescriptionContainingIgnoreCase(
+                    searchKey, searchKey, pageable
+            );
+        }
     }
 
     public void deleteProduct(Long productId) {

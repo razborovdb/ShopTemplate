@@ -25,27 +25,32 @@ export class ShowAllProductsComponent {
     public dialog: MatDialog,
     private imageProcessingService: ImageProcessingService,
     private router: Router,
-    private sanitizer: DomSanitizer) {}
+    private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
     this.getAllProducts();
-   }
+  }
+
+  searchByKeyword(searchkeyword) {
+    console.log(searchkeyword);
+    this.pageNumber = 0;
+    this.allProducts = [];
+    this.getAllProducts(searchkeyword);
+  }
 
 
-
-
-  public getAllProducts() {
+  public getAllProducts(searchkeyword: string = "") {
     this.showTable = false;
-    this.productService.getAllProducts(this.pageNumber, this.size).subscribe(
+    this.productService.getAllProducts(this.pageNumber, this.size, searchkeyword).subscribe(
       (response: Product[]) => {
-        if(response.length==this.size) {
+        if (response.length == this.size) {
           this.showButton = true;
         } else {
           this.showButton = false;
         }
         this.showTable = true;
         response.map((product: Product) => this.imageProcessingService.createImages(product))
-        .forEach(p => this.allProducts.push(p));
+          .forEach(p => this.allProducts.push(p));
       },
       (error) => {
         this.showTable = true;
@@ -65,11 +70,11 @@ export class ShowAllProductsComponent {
       }
     );
 
-    
+
   }
 
   editProduct(productId) {
-      this.router.navigate(['/addUpdateProduct', {productId: productId}]);
+    this.router.navigate(['/addUpdateProduct', { productId: productId }]);
   }
 
   showProductImages(product: Product) {
@@ -87,5 +92,5 @@ export class ShowAllProductsComponent {
     this.getAllProducts();
   }
 
-    
+
 }

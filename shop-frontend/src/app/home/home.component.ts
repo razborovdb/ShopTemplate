@@ -26,10 +26,17 @@ export class HomeComponent implements OnInit {
     this.getAllProducts();
   }
 
+  searchByKeyword(searchkeyword) {
+    console.log(searchkeyword);
+    this.pageNumber = 0;
+    this.allProduct = [];
+    this.getAllProducts(searchkeyword);
+  }
 
-  public getAllProducts() {
 
-    this.productService.getAllProducts(this.pageNumber, this.size).subscribe(
+  public getAllProducts(searchkeyword: string = "") {
+
+    this.productService.getAllProducts(this.pageNumber, this.size, searchkeyword).subscribe(
       (response: Product[]) => {
         if(response.length==this.size) {
           this.showButton = true;

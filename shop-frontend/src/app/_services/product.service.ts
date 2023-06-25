@@ -21,14 +21,16 @@ export class ProductService {
     });
   }
 
-  public getAllProducts(pageNumber, size) {
+  public getAllProducts(pageNumber, size, searchkeyword) {
     
     if (this.userAuthService.getToken()) {
-      return this.httpclient.get<Product[]>(this.PATH_OF_API + '/products?pageNumber=' + pageNumber +'&size=' + size, {
+      return this.httpclient.get<Product[]>(this.PATH_OF_API + '/products?pageNumber=' + pageNumber +'&size=' + size +
+        '&searchKey=' + searchkeyword, {
         headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.userAuthService.getToken() }),
       });
     } else {
-      return this.httpclient.get<Product[]>(this.PATH_OF_API + '/products?pageNumber=' + pageNumber +'&size=' + size, {
+      return this.httpclient.get<Product[]>(this.PATH_OF_API + '/products?pageNumber=' + pageNumber +'&size=' + size+
+        '&searchKey=' + searchkeyword, {
         headers: new HttpHeaders({ 'No-Auth': 'True' }),
         
       });
