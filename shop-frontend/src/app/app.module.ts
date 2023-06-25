@@ -31,6 +31,8 @@ import { ShowAllProductsComponent } from './show-all-products/show-all-products.
 import { ShowProductImagesDialogComponent } from './show-product-images-dialog/show-product-images-dialog.component';
 import { ProductViewDetailComponent } from './product-view-detail/product-view-detail.component';
 import { BuyProductComponent } from './buy-product/buy-product.component';
+import { OrderConfirmationComponent } from './order-confirmation/order-confirmation.component';
+import { RegisterComponent } from './register/register.component';
 
 
 @NgModule({
@@ -48,6 +50,8 @@ import { BuyProductComponent } from './buy-product/buy-product.component';
     ShowProductImagesDialogComponent,
     ProductViewDetailComponent,
     BuyProductComponent,
+    OrderConfirmationComponent,
+    RegisterComponent,
     
   ],
   imports: [

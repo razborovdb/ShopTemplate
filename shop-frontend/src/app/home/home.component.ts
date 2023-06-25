@@ -11,7 +11,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  allProduct: Product[];
+  pageNumber: number = 0;
+  size: number = 3;
+  allProduct: Product[] = [];
+  showButton = false;
 
   constructor(private productService: ProductService,
     public dialog: MatDialog,
@@ -26,23 +29,29 @@ export class HomeComponent implements OnInit {
 
   public getAllProducts() {
 
-    this.productService.getAllProducts().subscribe(
+    this.productService.getAllProducts(this.pageNumber, this.size).subscribe(
       (response: Product[]) => {
-        this.allProduct = response.map((product: Product) => this.imageProcessingService.createImages(product));
-        
+        if(response.length==this.size) {
+          this.showButton = true;
+        } else {
+          this.showButton = false;
+        }
+        response.map((product: Product) => this.imageProcessingService.createImages(product))
+        .forEach(p => this.allProduct.push(p));
       },
       (error) => {
         console.log(error);
       }
     );
-
-    
-
-
   }
 
   showProductDetails(productId) {
     this.router.navigate(['/productViewDetail', {productId: productId}]);
+  }
+
+  loadNext() {
+    this.pageNumber++;
+    this.getAllProducts();
   }
 
 }

@@ -31,7 +31,7 @@ public class OrderDetailService {
                     orderInput.getContactNumber(),
                     orderInput.getAlternateContactNumber(),
                     ORDER_PLACED,
-                    o.getQuantity() * product.getProductActualPrice(),
+                    o.getQuantity() * product.getProductDiscountedPrice(),
                     product,
                     user
             );

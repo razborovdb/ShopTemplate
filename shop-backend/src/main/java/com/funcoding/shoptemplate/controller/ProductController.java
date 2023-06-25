@@ -6,6 +6,8 @@ import com.funcoding.shoptemplate.entity.User;
 import com.funcoding.shoptemplate.service.ProductService;
 import com.funcoding.shoptemplate.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -54,8 +56,10 @@ public class ProductController {
 
 
     @GetMapping(value = {"/products"})
-    public List<Product> getAllProducts() {
-        return productService.getAllProduct();
+    public List<Product> getAllProducts(@RequestParam(name="pageNumber", defaultValue="0") int pageNumber,
+                                        @RequestParam(name="size", defaultValue="3") int size) {
+
+        return productService.getAllProduct(pageNumber, size);
     }
 
 

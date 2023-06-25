@@ -21,14 +21,14 @@ export class ProductService {
     });
   }
 
-  public getAllProducts() {
+  public getAllProducts(pageNumber, size) {
     
     if (this.userAuthService.getToken()) {
-      return this.httpclient.get<Product[]>(this.PATH_OF_API + '/products', {
+      return this.httpclient.get<Product[]>(this.PATH_OF_API + '/products?pageNumber=' + pageNumber +'&size=' + size, {
         headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.userAuthService.getToken() }),
       });
     } else {
-      return this.httpclient.get<Product[]>(this.PATH_OF_API + '/products', {
+      return this.httpclient.get<Product[]>(this.PATH_OF_API + '/products?pageNumber=' + pageNumber +'&size=' + size, {
         headers: new HttpHeaders({ 'No-Auth': 'True' }),
         
       });

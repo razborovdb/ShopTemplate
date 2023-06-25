@@ -1,16 +1,15 @@
 package com.funcoding.shoptemplate.service;
 
 import com.funcoding.shoptemplate.dao.ProductDao;
-import com.funcoding.shoptemplate.dao.RoleDao;
-import com.funcoding.shoptemplate.dao.UserDao;
+
 import com.funcoding.shoptemplate.entity.Product;
-import com.funcoding.shoptemplate.entity.Role;
-import com.funcoding.shoptemplate.entity.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+
 
 import java.util.*;
 
@@ -25,8 +24,9 @@ public class ProductService {
         return newProduct;
     }
 
-    public List<Product> getAllProduct() {
-        List<Product> products = (List<Product>) productDao.findAll();
+    public List<Product> getAllProduct(int pageNumber, int size) {
+        Pageable pageable = PageRequest.of(pageNumber,size);
+        List<Product> products = (List<Product>) productDao.findAll(pageable);
         return products;
     }
 

@@ -13,7 +13,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./show-all-products.component.css']
 })
 export class ShowAllProductsComponent {
-  allProducts: Product[];
+
+  allProducts: Product[] = [];
+  pageNumber: number = 0;
+  size: number = 3;
+  showButton = false;
+  showTable = false;
   displayedColumns: string[] = ['Id', 'Product Name', 'description', 'Product Discounted Price', 'Product Actual Price', 'Actions'];
 
   constructor(private productService: ProductService,
@@ -26,19 +31,29 @@ export class ShowAllProductsComponent {
     this.getAllProducts();
    }
 
-  public getAllProducts() {
 
-    this.productService.getAllProducts().subscribe(
+
+
+  public getAllProducts() {
+    this.showTable = false;
+    this.productService.getAllProducts(this.pageNumber, this.size).subscribe(
       (response: Product[]) => {
-        this.allProducts = response.map((product: Product) => this.imageProcessingService.createImages(product));
+        if(response.length==this.size) {
+          this.showButton = true;
+        } else {
+          this.showButton = false;
+        }
+        this.showTable = true;
+        response.map((product: Product) => this.imageProcessingService.createImages(product))
+        .forEach(p => this.allProducts.push(p));
       },
       (error) => {
+        this.showTable = true;
         console.log(error);
       }
     );
-
-    
   }
+
 
   deleteProduct(productId) {
     this.productService.deleteProduct(productId).subscribe(
@@ -65,6 +80,11 @@ export class ShowAllProductsComponent {
         images: product.productImages,
       },
     });
+  }
+
+  loadNext() {
+    this.pageNumber++;
+    this.getAllProducts();
   }
 
     
