@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Product } from '../_model/product.model';
 import { UserAuthService } from '../_services/user-auth.service';
 import { OrderDetails } from '../_model/order-details.model';
+import { UserOrderDetails } from '../_model/order.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -71,17 +73,112 @@ export class ProductService {
     }
   }
 
-  public placeOrder(orderDetails: OrderDetails) {
+  public placeOrder(orderDetails: OrderDetails, isCartCheckout) {
     if (this.userAuthService.getToken()) {
 
-      return this.httpclient.post(this.PATH_OF_API + '/order', orderDetails, {
+      return this.httpclient.post(this.PATH_OF_API + '/order/' + isCartCheckout, orderDetails, {
         headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.userAuthService.getToken() }),
       });
     } else {
-      return this.httpclient.post(this.PATH_OF_API + '/order', orderDetails, {
+      return this.httpclient.post(this.PATH_OF_API + '/order/' + isCartCheckout, orderDetails, {
         headers: new HttpHeaders({ 'No-Auth': 'True' }),
       });
     }
+  }
+
+  public addToCart(productId) {
+
+    if (this.userAuthService.getToken()) {
+
+      return this.httpclient.post(this.PATH_OF_API + '/addToCart/' + productId,  {
+        headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.userAuthService.getToken() }),
+      });
+    } else {
+      return this.httpclient.post(this.PATH_OF_API + '/addToCart/' + productId, {
+        headers: new HttpHeaders({ 'No-Auth': 'True' }),
+      });
+    }
+  }
+
+  public deleteCartItem(cartId) {
+    if (this.userAuthService.getToken()) {
+
+      return this.httpclient.delete(this.PATH_OF_API + '/deleteCartItem/' + cartId,  {
+        headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.userAuthService.getToken() }),
+      });
+    } else {
+      return this.httpclient.delete(this.PATH_OF_API + '/deleteCartItem/' + cartId, {
+        headers: new HttpHeaders({ 'No-Auth': 'True' }),
+      });
+    }
+  }
+
+  public getCartDetails() {
+    if (this.userAuthService.getToken()) {
+
+      return this.httpclient.get(this.PATH_OF_API + '/getCartDetails',  {
+        headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.userAuthService.getToken() }),
+      });
+    } else {
+      return this.httpclient.get(this.PATH_OF_API + '/getCartDetails', {
+        headers: new HttpHeaders({ 'No-Auth': 'True' }),
+      });
+    }
+  }
+
+  public getUserOrders(): Observable<UserOrderDetails[]> {
+    if (this.userAuthService.getToken()) {
+
+      return this.httpclient.get<UserOrderDetails[]>(this.PATH_OF_API + '/getOrderDetails',  {
+        headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.userAuthService.getToken() }),
+      });
+    } else {
+      return this.httpclient.get<UserOrderDetails[]>(this.PATH_OF_API + '/getOrderDetails', {
+        headers: new HttpHeaders({ 'No-Auth': 'True' }),
+      });
+    }
+
+  }
+
+  public createTransaction(amount) {
+    if (this.userAuthService.getToken()) {
+
+      return this.httpclient.get(this.PATH_OF_API + '/createTransaction/' + amount,  {
+        headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.userAuthService.getToken() }),
+      });
+    } else {
+      return this.httpclient.get(this.PATH_OF_API + '/createTransaction/' + amount, {
+        headers: new HttpHeaders({ 'No-Auth': 'True' }),
+      });
+    }
+
+  }
+
+  public markAsDelivered(orderId) {
+    if (this.userAuthService.getToken()) {
+
+      return this.httpclient.put(this.PATH_OF_API + '/markOrderAsDelivered/' + orderId,  {
+        headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.userAuthService.getToken() }),
+      });
+    } else {
+      return this.httpclient.put(this.PATH_OF_API + '/markOrderAsDelivered/' + orderId, {
+        headers: new HttpHeaders({ 'No-Auth': 'True' }),
+      });
+    }
+  }
+
+  public getAllOrderDetailsForAdmin(status: string): Observable<UserOrderDetails[]> {
+    if (this.userAuthService.getToken()) {
+
+      return this.httpclient.get<UserOrderDetails[]>(this.PATH_OF_API + '/getAllOrderDetails/' + status,  {
+        headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.userAuthService.getToken() }),
+      });
+    } else {
+      return this.httpclient.get<UserOrderDetails[]>(this.PATH_OF_API + '/getAllOrderDetails/' + status, {
+        headers: new HttpHeaders({ 'No-Auth': 'True' }),
+      });
+    }
+
   }
 
 

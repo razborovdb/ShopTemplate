@@ -33,6 +33,10 @@ import { ProductViewDetailComponent } from './product-view-detail/product-view-d
 import { BuyProductComponent } from './buy-product/buy-product.component';
 import { OrderConfirmationComponent } from './order-confirmation/order-confirmation.component';
 import { RegisterComponent } from './register/register.component';
+import { CartComponent } from './cart/cart.component';
+import { UserOrdersComponent } from './user-orders/user-orders.component';
+import { OrderDetailsComponent } from './order-details/order-details.component';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 
 @NgModule({
@@ -52,6 +56,9 @@ import { RegisterComponent } from './register/register.component';
     BuyProductComponent,
     OrderConfirmationComponent,
     RegisterComponent,
+    CartComponent,
+    UserOrdersComponent,
+    OrderDetailsComponent,
     
   ],
   imports: [
@@ -68,7 +75,8 @@ import { RegisterComponent } from './register/register.component';
     MatGridListModule,
     MatTableModule,
     MatIconModule,
-    MatDialogModule
+    MatDialogModule,
+    MatButtonToggleModule
   ],
   providers: [
     AuthGuard,
