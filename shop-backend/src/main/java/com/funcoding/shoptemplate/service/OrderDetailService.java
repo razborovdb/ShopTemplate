@@ -6,6 +6,7 @@ import com.funcoding.shoptemplate.dao.OrderDetailDao;
 import com.funcoding.shoptemplate.dao.ProductDao;
 import com.funcoding.shoptemplate.dao.UserDao;
 import com.funcoding.shoptemplate.entity.*;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,8 @@ public class OrderDetailService {
     private ProductDao productDao;
     @Autowired
     private UserDao userDao;
+
+    private static final String CURRENCY = "INR";
 
     @Autowired
     private CartDao cartDao;
@@ -38,7 +41,8 @@ public class OrderDetailService {
                     ORDER_PLACED,
                     o.getQuantity() * product.getProductDiscountedPrice(),
                     product,
-                    user
+                    user,
+                    orderInput.getTransactionId()
             );
             orderDetailDao.save(orderDetail);
         }
@@ -83,4 +87,32 @@ public class OrderDetailService {
         }
 
     }
+
+    public TransactionDetails createTransaction(Double amount) {
+        try {
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("amount", (amount * 100) );
+            jsonObject.put("currency", CURRENCY);
+
+//            RazorpayClient razorpayClient = new RazorpayClient(KEY, KEY_SECRET);
+//
+//            Order order = razorpayClient.orders.create(jsonObject);
+//
+//            TransactionDetails transactionDetails =  prepareTransactionDetails(order);
+//            return transactionDetails;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+//    private TransactionDetails prepareTransactionDetails(Order order) {
+//        String orderId = order.get("id");
+//        String currency = order.get("currency");
+//        Integer amount = order.get("amount");
+//
+//        TransactionDetails transactionDetails = new TransactionDetails(orderId, currency, amount, KEY);
+//        return transactionDetails;
+//    }
 }

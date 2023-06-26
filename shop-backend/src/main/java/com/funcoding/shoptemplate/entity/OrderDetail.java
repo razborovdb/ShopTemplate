@@ -23,6 +23,8 @@ public class OrderDetail {
     private Product product;
     @OneToOne
     private User user;
+    @Column(name = "transaction_id")
+    private String transactionId;
 
     public OrderDetail() {
 
@@ -30,7 +32,7 @@ public class OrderDetail {
 
     public OrderDetail(String orderFullName, String orderFullOrder, String orderContactNumber,
                        String orderAlternateContactNumber, String orderStatus, Double orderAmount,
-                       Product product, User user) {
+                       Product product, User user, String transactionId) {
         this.orderFullName = orderFullName;
         this.orderFullOrder = orderFullOrder;
         this.orderContactNumber = orderContactNumber;
@@ -39,6 +41,7 @@ public class OrderDetail {
         this.orderAmount = orderAmount;
         this.product = product;
         this.user = user;
+        this.transactionId = transactionId;
     }
 
     public Product getProduct() {
@@ -111,6 +114,14 @@ public class OrderDetail {
 
     public void setOrderAmount(Double orderAmount) {
         this.orderAmount = orderAmount;
+    }
+
+    public String getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(String transactionId) {
+        this.transactionId = transactionId;
     }
 
     @Override

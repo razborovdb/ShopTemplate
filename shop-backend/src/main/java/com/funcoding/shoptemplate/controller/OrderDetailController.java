@@ -2,6 +2,7 @@ package com.funcoding.shoptemplate.controller;
 
 import com.funcoding.shoptemplate.entity.OrderDetail;
 import com.funcoding.shoptemplate.entity.OrderInput;
+import com.funcoding.shoptemplate.entity.TransactionDetails;
 import com.funcoding.shoptemplate.service.OrderDetailService;
 import com.funcoding.shoptemplate.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,4 +39,11 @@ public class OrderDetailController {
     public void markOrderAsDelivered(@PathVariable(name = "orderId") Long orderId) {
         orderDetailService.markOrderAsDelivered(orderId);
     }
+
+    @PreAuthorize("hasRole('User')")
+    @PostMapping({"/createTransaction/{amount}"})
+    public TransactionDetails createTransaction(@PathVariable(name = "amount") Double amount) {
+        return orderDetailService.createTransaction(amount);
+    }
+
 }
