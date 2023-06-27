@@ -97,14 +97,13 @@ export class BuyProductComponent {
     let amount = this.getTotal();
     this.productService.createTransaction(this.orderDetails, this.isSingleProductCheckout, amount).subscribe(
       (response: StripeModel) => {
-        console.log("response ---------------------------------------")
-        console.log(response);
+
         if (response.url) {
            window.location.href = response.url;
         }
       },
       (error) => {
-        console.log("error ---------------------------------------")
+
         console.log(error);
       }
     );
