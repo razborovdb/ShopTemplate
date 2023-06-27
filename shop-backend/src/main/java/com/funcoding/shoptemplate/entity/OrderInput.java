@@ -57,4 +57,16 @@ public class OrderInput {
     public void setTransactionId(String transactionId) {
         this.transactionId = transactionId;
     }
+
+    @Override
+    public String toString() {
+        return "OrderInput{" +
+                "fullName='" + fullName + '\'' +
+                ", fullAddress='" + fullAddress + '\'' +
+                ", contactNumber='" + contactNumber + '\'' +
+                ", alternateContactNumber='" + alternateContactNumber + '\'' +
+                ", transactionId='" + transactionId + '\'' +
+                ", orderProductQuantities=" + orderProductQuantities +
+                '}';
+    }
 }

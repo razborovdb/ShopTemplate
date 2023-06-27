@@ -4,6 +4,7 @@ import { OrderDetails } from '../_model/order-details.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from '../_model/product.model';
 import { ProductService } from '../_services/product.service';
+import { StripeModel } from '../_model/stripe.model';
 
 declare var Razorpay: any;
 @Component({
@@ -92,19 +93,23 @@ export class BuyProductComponent {
     return total;
   }
 
-  // createTransactionAndPlaceOrder(orderForm: NgForm) {
-  //   let amount = this.getTotal();
-  //   this.productService.createTransaction(amount).subscribe(
-  //     (response) => {
-  //       console.log(response);
-  //       this.openTransactioModal(response, orderForm);
-  //     },
-  //     (error) => {
-  //       console.log(error);
-  //     }
-  //   );
+  createTransactionAndPlaceOrder(orderForm: NgForm) {
+    let amount = this.getTotal();
+    this.productService.createTransaction(this.orderDetails, this.isSingleProductCheckout, amount).subscribe(
+      (response: StripeModel) => {
+        console.log("response ---------------------------------------")
+        console.log(response);
+        if (response.url) {
+           window.location.href = response.url;
+        }
+      },
+      (error) => {
+        console.log("error ---------------------------------------")
+        console.log(error);
+      }
+    );
 
-  // }
+  }
 
   // openTransactioModal(response: any, orderForm: NgForm) {
   //   var options = {

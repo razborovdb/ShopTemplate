@@ -5,6 +5,7 @@ import { UserAuthService } from '../_services/user-auth.service';
 import { OrderDetails } from '../_model/order-details.model';
 import { UserOrderDetails } from '../_model/order.model';
 import { Observable } from 'rxjs';
+import { StripeModel } from '../_model/stripe.model';
 
 @Injectable({
   providedIn: 'root'
@@ -140,14 +141,16 @@ export class ProductService {
 
   }
 
-  public createTransaction(amount) {
+  public createTransaction(orderDetails: OrderDetails, isCartCheckout, amount) {
     if (this.userAuthService.getToken()) {
-
-      return this.httpclient.get(this.PATH_OF_API + '/createTransaction/' + amount,  {
+      const resp = this.httpclient.post<StripeModel>(this.PATH_OF_API + '/createTransaction/' + amount + '/' + isCartCheckout, orderDetails, {
         headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.userAuthService.getToken() }),
       });
+      console.log("******************************* end");
+      console.log(resp);
+      return resp;
     } else {
-      return this.httpclient.get(this.PATH_OF_API + '/createTransaction/' + amount, {
+      return this.httpclient.post<StripeModel>(this.PATH_OF_API + '/createTransaction/' + amount + '/' + isCartCheckout, orderDetails,{
         headers: new HttpHeaders({ 'No-Auth': 'True' }),
       });
     }
